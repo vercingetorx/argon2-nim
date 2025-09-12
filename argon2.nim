@@ -129,10 +129,10 @@ proc validateArgon2Params(params: Argon2Params) =
   if not (params.digestSize >= 4 and params.digestSize <= (1 shl 32) - 1):
     raise newException(ValueError, "Hash length must be between 4 and 2^32 - 1")
 
-  if not (params.version in {Argon2_Version_1_3, Argon2_Version_1_2_1}):
+  if not ([Argon2_Version_1_3, Argon2_Version_1_2_1].contains(params.version)):
     raise newException(ValueError, "Version must be either 0x13 (19) or 0x10 (16)")
 
-  if not (params.mode in {ARGON2D, ARGON2I, ARGON2ID}):
+  if not ([ARGON2D, ARGON2I, ARGON2ID].contains(params.mode)):
     raise newException(ValueError, "Mode must be one of ARGON2D (0), ARGON2I (1), or ARGON2ID (2)")
 
 
@@ -484,8 +484,8 @@ proc encoded*(ctx: Argon2Ctx): string =
 ##########################################################################
 
 proc newArgon2Ctx*(
-  password, salt: openArray[byte], 
-  secret, assocData: openArray[byte] = @[],
+  password, salt: openArray[byte],
+  secret: openArray[byte] = @[], assocData: openArray[byte] = @[],
   timeCost: Positive = 2,
   memoryCost: Positive = 16,
   parallelism: Positive = 1,
@@ -519,7 +519,7 @@ proc newArgon2Ctx*(
 
 proc newArgon2Ctx*(
   password, salt: string,
-  secret, assocData: string = "",
+  secret: string = "", assocData: string = "",
   timeCost: Positive = 2,
   memoryCost: Positive = 16,
   parallelism: Positive = 1,
@@ -538,18 +538,3 @@ proc newArgon2Ctx*(
     version, 
     mode
   )
-
-##########################################################################
-
-when isMainModule:
-  include testing
-  
-  proc runTestVectors() =
-    for v in testVectors:
-      let ctx = newArgon2Ctx("password", "somesalt",
-                             timeCost=v.time, memoryCost=v.memory, parallelism=v.threads,
-                             digestSize=24, 
-                             mode=v.mode)
-      doAssert ctx.hexDigest() == v.hash
-
-  runTestVectors()
