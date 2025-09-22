@@ -1,1 +1,1 @@
-Pure Nim implementation of Argon2. Compile with ```--threads:on```. (This code should **not** be used in production and is not fully optimized.)
+Pure Nim implementation of Argon2. (This code should **not** be used in production and is not fully optimized.)
