@@ -1,119 +1,165 @@
-# NOTE: https://cs.opensource.google/go/x/crypto/+/master:argon2/argon2_test.go
+proc blamka(v00, v01, v02, v03, v04, v05, v06, v07, v08, v09, v10, v11, v12, v13, v14, v15: var Word) =
+  #[
+    BlaMka: optimized data mixing operation for Argon2
+    + designed to increase the computational cost in a way
+    that is resistant to optimization by parallel computing hardware.
+  ]#
+  
+  v00 = v00 + v04 + 2*uint64(uint32(v00))*uint64(uint32(v04))
+  v12 = v12 xor v00
+  v12 = v12 shr 32 or v12 shl 32
+  v08 = v08 + v12 + 2*uint64(uint32(v08))*uint64(uint32(v12))
+  v04 = v04 xor v08
+  v04 = v04 shr 24 or v04 shl 40
+
+  v00 = v00 +  v04 + 2*uint64(uint32(v00))*uint64(uint32(v04))
+  v12 = v12 xor v00
+  v12 = v12 shr 16 or v12 shl 48
+  v08 = v08 + v12 + 2*uint64(uint32(v08))*uint64(uint32(v12))
+  v04 = v04 xor v08
+  v04 = v04 shr 63 or v04 shl 1
+
+  v01 = v01 + v05 + 2*uint64(uint32(v01))*uint64(uint32(v05))
+  v13 = v13 xor v01
+  v13 = v13 shr 32 or v13 shl 32
+  v09 = v09 + v13 + 2*uint64(uint32(v09))*uint64(uint32(v13))
+  v05 = v05 xor v09
+  v05 = v05 shr 24 or v05 shl 40
+
+  v01 = v01 + v05 + 2*uint64(uint32(v01))*uint64(uint32(v05))
+  v13 = v13 xor v01
+  v13 = v13 shr 16 or v13 shl 48
+  v09 = v09 + v13 + 2*uint64(uint32(v09))*uint64(uint32(v13))
+  v05 = v05 xor v09
+  v05 = v05 shr 63 or v05 shl 1
+
+  v02 = v02 + v06 + 2*uint64(uint32(v02))*uint64(uint32(v06))
+  v14 = v14 xor v02
+  v14 = v14 shr 32 or v14 shl 32
+  v10 = v10 + v14 + 2*uint64(uint32(v10))*uint64(uint32(v14))
+  v06 = v06 xor v10
+  v06 = v06 shr 24 or v06 shl 40
+
+  v02 = v02 + v06 + 2*uint64(uint32(v02))*uint64(uint32(v06))
+  v14 = v14 xor v02
+  v14 = v14 shr 16 or v14 shl 48
+  v10 = v10 + v14 + 2*uint64(uint32(v10))*uint64(uint32(v14))
+  v06 = v06 xor v10
+  v06 = v06 shr 63 or v06 shl 1
+
+  v03 = v03 + v07 + 2*uint64(uint32(v03))*uint64(uint32(v07))
+  v15 = v15 xor v03
+  v15 = v15 shr 32 or v15 shl 32
+  v11 = v11 + v15 + 2*uint64(uint32(v11))*uint64(uint32(v15))
+  v07 = v07 xor v11
+  v07 = v07 shr 24 or v07 shl 40
+
+  v03 = v03 + v07 + 2*uint64(uint32(v03))*uint64(uint32(v07))
+  v15 = v15 xor v03
+  v15 = v15 shr 16 or v15 shl 48
+  v11 = v11 + v15 + 2*uint64(uint32(v11))*uint64(uint32(v15))
+  v07 = v07 xor v11
+  v07 = v07 shr 63 or v07 shl 1
+
+  v00 = v00 + v05 + 2*uint64(uint32(v00))*uint64(uint32(v05))
+  v15 = v15 xor v00
+  v15 = v15 shr 32 or v15 shl 32
+  v10 = v10 + v15 + 2*uint64(uint32(v10))*uint64(uint32(v15))
+  v05 = v05 xor v10
+  v05 = v05 shr 24 or v05 shl 40
+
+  v00 = v00 + v05 + 2*uint64(uint32(v00))*uint64(uint32(v05))
+  v15 = v15 xor v00
+  v15 = v15 shr 16 or v15 shl 48
+  v10 = v10 + v15 + 2*uint64(uint32(v10))*uint64(uint32(v15))
+  v05 = v05 xor v10
+  v05 = v05 shr 63 or v05 shl 1
+
+  v01 = v01 + v06 + 2*uint64(uint32(v01))*uint64(uint32(v06))
+  v12 = v12 xor v01
+  v12 = v12 shr 32 or v12 shl 32
+  v11 = v11 + v12 + 2*uint64(uint32(v11))*uint64(uint32(v12))
+  v06 = v06 xor v11
+  v06 = v06 shr 24 or v06 shl 40
+
+  v01 = v01 + v06 + 2*uint64(uint32(v01))*uint64(uint32(v06))
+  v12 = v12 xor v01
+  v12 = v12 shr 16 or v12 shl 48
+  v11 = v11 + v12 + 2*uint64(uint32(v11))*uint64(uint32(v12))
+  v06 = v06 xor v11
+  v06 = v06 shr 63 or v06 shl 1
+
+  v02 = v02 + v07 + 2*uint64(uint32(v02))*uint64(uint32(v07))
+  v13 = v13 xor v02
+  v13 = v13 shr 32 or v13 shl 32
+  v08 = v08 + v13 + 2*uint64(uint32(v08))*uint64(uint32(v13))
+  v07 = v07 xor v08
+  v07 = v07 shr 24 or v07 shl 40
+
+  v02 = v02 + v07 + 2*uint64(uint32(v02))*uint64(uint32(v07))
+  v13 = v13 xor v02
+  v13 = v13 shr 16 or v13 shl 48
+  v08 = v08 + v13 + 2*uint64(uint32(v08))*uint64(uint32(v13))
+  v07 = v07 xor v08
+  v07 = v07 shr 63 or v07 shl 1
+
+  v03 = v03 + v04 + 2*uint64(uint32(v03))*uint64(uint32(v04))
+  v14 = v14 xor v03
+  v14 = v14 shr 32 or v14 shl 32
+  v09 = v09 + v14 + 2*uint64(uint32(v09))*uint64(uint32(v14))
+  v04 = v04 xor v09
+  v04 = v04 shr 24 or v04 shl 40
+
+  v03 = v03 + v04 + 2*uint64(uint32(v03))*uint64(uint32(v04))
+  v14 = v14 xor v03
+  v14 = v14 shr 16 or v14 shl 48
+  v09 = v09 + v14 + 2*uint64(uint32(v09))*uint64(uint32(v14))
+  v04 = v04 xor v09
+  v04 = v04 shr 63 or v04 shl 1
 
 
-const
-  genKatPassword = [
-      0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte,
-      0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte,
-      0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte,
-      0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte, 0x01.byte
-    ]
-  genKatSalt   = [0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte, 0x02.byte]
-  genKatSecret = [0x03.byte, 0x03.byte, 0x03.byte, 0x03.byte, 0x03.byte, 0x03.byte, 0x03.byte, 0x03.byte]
-  genKatAAD    = [0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte, 0x04.byte]
+proc processBlockGeneric(dest: var Block, in1, in2: Block, doXOR: bool) =
+  #[
+    processes a block of data using the BlaMka function
+    
+    dest: block where the result is stored
+    in1, in2: blocks to be processed
+  ]#
+  var t: Block
 
-  testVectors: array[24, tuple[
-      mode:        Mode,
-      time:        int,
-      memory:      int,
-      threads:     int,
-      hash:        string
-    ]
-  ] = [
-    (
-      mode: ARGON2I, time: 1, memory: 64, threads: 1,
-      hash: "b9c401d1844a67d50eae3967dc28870b22e508092e861a37"
-    ),
-    (
-      mode: ARGON2D, time: 1, memory: 64, threads: 1,
-      hash: "8727405fd07c32c78d64f547f24150d3f2e703a89f981a19"
-    ),
-    (
-      mode: ARGON2ID, time: 1, memory: 64, threads: 1,
-      hash: "655ad15eac652dc59f7170a7332bf49b8469be1fdb9c28bb"
-    ),
-    (
-      mode: ARGON2I, time: 2, memory: 64, threads: 1,
-      hash: "8cf3d8f76a6617afe35fac48eb0b7433a9a670ca4a07ed64"
-    ),
-    (
-      mode: ARGON2D, time: 2, memory: 64, threads: 1,
-      hash: "3be9ec79a69b75d3752acb59a1fbb8b295a46529c48fbb75"
-    ),
-    (
-      mode: ARGON2ID, time: 2, memory: 64, threads: 1,
-      hash: "068d62b26455936aa6ebe60060b0a65870dbfa3ddf8d41f7"
-    ),
-    (
-      mode: ARGON2I, time: 2, memory: 64, threads: 2,
-      hash: "2089f3e78a799720f80af806553128f29b132cafe40d059f"
-    ),
-    (
-      mode: ARGON2D, time: 2, memory: 64, threads: 2,
-      hash: "68e2462c98b8bc6bb60ec68db418ae2c9ed24fc6748a40e9"
-    ),
-    (
-      mode: ARGON2ID, time: 2, memory: 64, threads: 2,
-      hash: "350ac37222f436ccb5c0972f1ebd3bf6b958bf2071841362"
-    ),
-    (
-      mode: ARGON2I, time: 3, memory: 256, threads: 2,
-      hash: "f5bbf5d4c3836af13193053155b73ec7476a6a2eb93fd5e6"
-    ),
-    (
-      mode: ARGON2D, time: 3, memory: 256, threads: 2,
-      hash: "f4f0669218eaf3641f39cc97efb915721102f4b128211ef2"
-    ),
-    (
-      mode: ARGON2ID, time: 3, memory: 256, threads: 2,
-      hash: "4668d30ac4187e6878eedeacf0fd83c5a0a30db2cc16ef0b"
-    ),
-    (
-      mode: ARGON2I, time: 4, memory: 4096, threads: 4,
-      hash: "a11f7b7f3f93f02ad4bddb59ab62d121e278369288a0d0e7"
-    ),
-    (
-      mode: ARGON2D, time: 4, memory: 4096, threads: 4,
-      hash: "935598181aa8dc2b720914aa6435ac8d3e3a4210c5b0fb2d"
-    ),
-    (
-      mode: ARGON2ID, time: 4, memory: 4096, threads: 4,
-      hash: "145db9733a9f4ee43edf33c509be96b934d505a4efb33c5a"
-    ),
-    (
-      mode: ARGON2I, time: 4, memory: 1024, threads: 8,
-      hash: "0cdd3956aa35e6b475a7b0c63488822f774f15b43f6e6e17"
-    ),
-    (
-      mode: ARGON2D, time: 4, memory: 1024, threads: 8,
-      hash: "83604fc2ad0589b9d055578f4d3cc55bc616df3578a896e9"
-    ),
-    (
-      mode: ARGON2ID, time: 4, memory: 1024, threads: 8,
-      hash: "8dafa8e004f8ea96bf7c0f93eecf67a6047476143d15577f"
-    ),
-    (
-      mode: ARGON2I, time: 2, memory: 64, threads: 3,
-      hash: "5cab452fe6b8479c8661def8cd703b611a3905a6d5477fe6"
-    ),
-    (
-      mode: ARGON2D, time: 2, memory: 64, threads: 3,
-      hash: "22474a423bda2ccd36ec9afd5119e5c8949798cadf659f51"
-    ),
-    (
-      mode: ARGON2ID, time: 2, memory: 64, threads: 3,
-      hash: "4a15b31aec7c2590b87d1f520be7d96f56658172deaa3079"
-    ),
-    (
-      mode: ARGON2I, time: 3, memory: 1024, threads: 6,
-      hash: "d236b29c2b2a09babee842b0dec6aa1e83ccbdea8023dced"
-    ),
-    (
-      mode: ARGON2D, time: 3, memory: 1024, threads: 6,
-      hash: "a3351b0319a53229152023d9206902f4ef59661cdca89481"
-    ),
-    (
-      mode: ARGON2ID, time: 3, memory: 1024, threads: 6,
-      hash: "1640b932f4b60e272f5d2207b9a9c626ffa1bd88d2349016"
-    ),
-  ]
+  # NOTE: XOR in1 and in2 into t
+  for i in 0 ..< blockSize:
+    t[i] = in1[i] xor in2[i]
+
+  # NOTE: row-wise processing
+  for i in countup(0, blockSize.pred, 16):
+    blamka(
+      t[i],    t[i+1],  t[i+2],  t[i+3],
+      t[i+4],  t[i+5],  t[i+6],  t[i+7],
+      t[i+8],  t[i+9],  t[i+10], t[i+11],
+      t[i+12], t[i+13], t[i+14], t[i+15]
+    )
+
+  # NOTE: column-wise processing
+  for i in countup(0, int(blockSize/8).pred, 2):
+    blamka(
+      t[i],     t[i+1],      t[i+16],  t[i+16+1],
+      t[i+32],  t[i+32+1],   t[i+48],  t[i+48+1],
+      t[i+64],  t[i+64+1],   t[i+80],  t[i+80+1],
+      t[i+96],  t[i+96+1],   t[i+112], t[i+112+1]
+    )
+
+  # NOTE: final XOR (helps ensure non-linearity)
+  for i in 0 ..< 128:
+    if doXOR:
+      dest[i] = dest[i] xor in1[i] xor in2[i] xor t[i]
+    else:
+      dest[i] = in1[i] xor in2[i] xor t[i]
+
+
+proc processBlock(dest: var Block, in1, in2: Block) =
+  processBlockGeneric(dest, in1, in2, false)
+
+
+proc processBlockXOR(dest: var Block, in1, in2: Block) =
+  processBlockGeneric(dest, in1, in2, true)
