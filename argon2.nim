@@ -1,7 +1,6 @@
 import std/[base64, strutils]
 
 import argon2_core
-export argon2_core
 
 
 ## Constant-time equality for byte arrays.
